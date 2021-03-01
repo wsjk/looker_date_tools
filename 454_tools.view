@@ -48,7 +48,6 @@ view: 454_tools_parameters {
     allowed_value: {label: "Fiscal Quarter" value: "quarter"}
     allowed_value: {label: "Repository Variables (Do not use Fiscal Year Parameter)" value: "repo"}
     allowed_value: {label: "+/- Fiscal Weeks (Do not use Fiscal Year Parameter)" value: "full_periods_week"}
-    allowed_value: {label: "+/- Fiscal Months (Do not use Fiscal Year Parameter)" value: "full_periods_month"}
   }
 
   parameter: 454interval_end {
@@ -62,7 +61,6 @@ view: 454_tools_parameters {
     allowed_value: {label: "Fiscal Quarter" value: "quarter"}
     allowed_value: {label: "Repository Variables (Do not use Fiscal Year Parameter)" value: "repo"}
     allowed_value: {label: "+/- Fiscal Weeks (Do not use Fiscal Year Parameter)" value: "full_periods_week"}
-    allowed_value: {label: "+/- Fiscal Months (Do not use Fiscal Year Parameter)" value: "full_periods_month"}
   }
 
   parameter: N_start_addsub {
@@ -110,7 +108,7 @@ view:  454_tools {
 
   extension: required
 
-  extends: [454_tools_parameters, 454_fixed_period_filters, 454_full_period_filters, repository_variables, py_repository_variables]
+  extends: [454_tools_parameters, 454_fixed_period_filters, repository_variables, py_repository_variables]
 
   dimension: part_field {
     type: string
@@ -127,7 +125,7 @@ view:  454_tools {
   #######################
 
   dimension: 454_start_date {
-    ## FY_start defined in 454_full_period_filters view
+    ## FY_start defined in 454_fixed_period_filters view
     ## Had to hardcore start_date for 2021 because for some reason it started earlier than expected
     ## based on patterns seen from previous years
     description: "First Date of Year for Begin Interval param for when Interval Type is Fiscal Wk/Mth/Qtr"
@@ -150,7 +148,7 @@ view:  454_tools {
   }
 
   dimension: 454_end_date {
-    ## FY_end defined in 454_full_period_filters view
+    ## FY_end defined in 454_fixed_period_filters view
     ## Had to hardcore start_date for 2021 because for some reason it started earlier than expected
     ## based on patterns seen from previous years
     hidden: yes
@@ -185,7 +183,7 @@ view:  454_tools {
 
   dimension: N_start_value {
     hidden: yes
-    ## N_start_value_week/month/quarter defined in 454_full_period_filters view
+    ## N_start_value_week/month/quarter defined in 454_fixed_period_filters view
 
     type: number
     sql:
@@ -197,8 +195,6 @@ view:  454_tools {
       ${N_start_value_quarter}
     {% elsif 454interval_start._parameter_value == 'full_periods_week' or 454interval_start._parameter_value == 'repo'  %}
       {{ N_start._parameter_value }}
-    {% elsif 454interval_start._parameter_value == 'full_periods_month' %}
-
     {% else %}
       USE PARAMETERS CORRECTLY
     {% endif %}
@@ -207,7 +203,7 @@ view:  454_tools {
 
   dimension: N_end_value {
     hidden: yes
-    ## N_end_value_week/month/quarter defined in 454_full_period_filters view
+    ## N_end_value_week/month/quarter defined in 454_fixed_period_filters view
 
     type: number
     sql:
@@ -219,8 +215,6 @@ view:  454_tools {
       ${N_end_value_quarter}
     {% elsif 454interval_end._parameter_value == 'full_periods_week' or 454interval_end._parameter_value == 'repo'%}
       {{ N_end._parameter_value }}
-    {% elsif 454interval_end._parameter_value == 'full_periods_month' %}
-
     {% else %}
       USE PARAMETERS CORRECTLY
     {% endif %}
@@ -255,8 +249,6 @@ view:  454_tools {
       date_add
       {% endif %}
       (${first_day_current_wk}, interval {{ N_start._parameter_value }} week)
-    {% elsif 454interval_start._parameter_value == 'full_periods_month' %}
-      ${fp_month_start_date}
     {% elsif 454interval_start._is_filtered | sql_boolean %}
       {% if FY_start._is_filtered | sql_boolean %}
       date_add(
@@ -303,8 +295,6 @@ view:  454_tools {
       date_add
       {% endif %}
       (${last_day_current_wk}, interval {{ N_end._parameter_value }} week)
-    {% elsif 454interval_end._parameter_value == 'full_periods_month' %}
-      ${fp_month_end_date}
     {% elsif 454interval_end._is_filtered | sql_boolean %}
       date_add(
         date_trunc(${454_end_date}, week ), interval ${N_end_value} week
@@ -343,8 +333,6 @@ view:  454_tools {
       date_add
       {% endif %}
       (${py_first_day_current_wk}, interval {{ N_start._parameter_value }} week)
-    {% elsif 454interval_start._parameter_value == 'full_periods_month' %}
-      ${py_fp_month_start_date}
     {% elsif 454interval_start._is_filtered | sql_boolean %}
       {% if FY_start._is_filtered | sql_boolean %}
       date_add(${fixed_start_date_FY_start_previous_yr}, interval ${N_start_value} week)
@@ -389,8 +377,6 @@ view:  454_tools {
       date_add
       {% endif %}
       (${py_last_day_current_wk}, interval {{ N_end._parameter_value }} week)
-    {% elsif 454interval_end._parameter_value == 'full_periods_month' %}
-      ${py_fp_month_end_date}
     {% elsif 454interval_end._is_filtered | sql_boolean %}
       date_add(
        date_trunc(${fixed_start_date_FY_end_previous_yr}, week ), interval ${N_end_value} week
@@ -418,36 +404,6 @@ view:  454_tools {
         OR date(${part_field}, "{{ _query._query_timezone }}") between ${py_start_interval} AND date_sub(${py_end_interval}, interval 1 day)
         {% endif %}
       )
-      {% if 454interval_start._parameter_value == 'full_periods_month' or 454interval_end._parameter_value == 'full_periods_month' %}
-        AND (
-        {% if 454interval_start._parameter_value == 'full_periods_month' and 454interval_end._parameter_value == 'full_periods_month' %}
-          {% if compare_yoy._parameter_value == 'yes' %}
-            ${partition_dim_dates.calendar_date_date} between elcap.merch_cal_tools_fm_to_fw_start(${fp_start_fy}, ${fp_start_fm})
-              AND elcap.merch_cal_tools_fm_to_fw_end(${fp_end_fy}, ${fp_end_fm})
-            OR
-            ${partition_dim_dates.calendar_date_date} between elcap.merch_cal_tools_fm_to_fw_start(${fp_start_fy}-1, ${fp_start_fm})
-              AND elcap.merch_cal_tools_fm_to_fw_end(${fp_end_fy}-1, ${fp_end_fm})
-          {% else %}
-            ${partition_dim_dates.calendar_date_date} between elcap.merch_cal_tools_fm_to_fw_start(${fp_start_fy}, ${fp_start_fm})
-              AND elcap.merch_cal_tools_fm_to_fw_end(${fp_end_fy}, ${fp_end_fm})
-          {% endif %}
-        {% elsif 454interval_start._parameter_value == 'full_periods_month' %}
-          ${partition_dim_dates.calendar_date_date} between elcap.merch_cal_tools_fm_to_fw_start(${fp_start_fy}, ${fp_start_fm}) AND date_sub(${py_end_interval}, interval 1 day)
-          {% if compare_yoy._parameter_value == 'yes' %}
-            OR
-            ${partition_dim_dates.calendar_date_date} between elcap.merch_cal_tools_fm_to_fw_start(${fp_start_fy}-1, ${fp_start_fm})
-              AND date_sub(${end_interval}, interval 1 day)
-          {% endif %}
-        {% elsif 454interval_end._parameter_value == 'full_periods_month' %}
-          ${partition_dim_dates.calendar_date_date} between ${start_interval} and elcap.merch_cal_tools_fm_to_fw_end(${fp_end_fy}, ${fp_end_fm})
-          {% if compare_yoy._parameter_value == 'yes' %}
-            OR
-            ${partition_dim_dates.calendar_date_date} between ${py_start_interval} and elcap.merch_cal_tools_fm_to_fw_end(${fp_end_fy}-1, ${fp_end_fm})
-          {% endif %}
-        {% endif %}
-        )
-
-      {% endif %}
     {% else %}
     1=1
     {% endif %}
@@ -655,74 +611,7 @@ view: py_repository_variables {
   }
 }
 
-# View containing dimensions/measures for +/- Fiscal Weeks or Months
-view: 454_full_period_filters {
-  extension: required
 
-  dimension: fp_month_start_date {
-    hidden: yes
-    sql:
-      elcap.merch_cal_tools_fp_month_dates(${current_ts_date}, {{ N_start._parameter_value }}, {{ N_start_addsub._parameter_value }})
-       ;;
-  }
-
-  dimension: fp_month_end_date {
-    hidden: yes
-    sql:
-    elcap.merch_cal_tools_fp_month_dates(${current_ts_date}, {{ N_end._parameter_value }}, {{ N_end_addsub._parameter_value }})
-       ;;
-  }
-
-  dimension: fp_start_fy {
-    hidden: yes
-    type: number
-    sql: elcap.merch_cal_tools_fp_fy(${current_fy}, ${current_fm_num},
-      {% if N_start_addsub._parameter_value == "'-'" %}-{% else %}+{% endif %}{{ N_start._parameter_value }});;
-  }
-
-  dimension: fp_start_fm {
-    hidden: yes
-    type: number
-    sql:
-    elcap.merch_cal_tools_fp_fm(${current_fy}, ${current_fm_num},
-    {% if N_start_addsub._parameter_value == "'-'" %}-{% else %}+{% endif %}{{ N_start._parameter_value }})
-     ;;
-  }
-
-  dimension: fp_end_fy {
-    type: number
-    hidden: yes
-    sql: elcap.merch_cal_tools_fp_fy(${current_fy}, ${current_fm_num},
-      {% if N_end_addsub._parameter_value == "'-'" %}-{% else %}+{% endif %}{{ N_end._parameter_value }});;
-  }
-
-  dimension: fp_end_fm {
-    hidden: yes
-    type: number
-    sql: elcap.merch_cal_tools_fp_fm(${current_fy}, ${current_fm_num},
-      {% if N_end_addsub._parameter_value == "'-'" %}-{% else %}+{% endif %}{{ N_end._parameter_value }});;
-  }
-
-  dimension: current_ts_date_365 {
-    hidden: yes
-    description: "Current Date - 365 days"
-    sql: date_sub(${current_ts_date}, interval 365 day) ;;
-  }
-
-  dimension: py_fp_month_start_date {
-    hidden: yes
-    sql:
-    elcap.merch_cal_tools_fp_month_dates(${current_ts_date_365}, {{ N_start._parameter_value }}, {{ N_start_addsub._parameter_value }})
-     ;;
-  }
-
-  dimension: py_fp_month_end_date {
-    hidden: yes
-    sql:
-    elcap.merch_cal_tools_fp_month_dates(${current_ts_date_365}, {{ N_end._parameter_value }}, {{ N_end_addsub._parameter_value }}) ;;
-  }
-
-}
 
 # View containing dimensions/measures for fixed fiscal periods
 view: 454_fixed_period_filters {
