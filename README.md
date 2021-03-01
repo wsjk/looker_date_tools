@@ -39,6 +39,8 @@ custom calendar.
 When working in BigQuery alone, you may create a mapping table that would provide 
 
 ### The Approach
+To be able to filter in Looker, a combination of BigQuery User Defined Functions, LookML code, and SQL conditional 
+statements are used.
 
-
-
+The BigQuery UDFs can be found in the [bq_udf](bq_udf) folder in this repo. The LookML blocks can be found in 
+[`454_tools.view`](454_tools.view)
