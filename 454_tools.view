@@ -6,7 +6,7 @@ view: 454_tools_parameters {
     type: unquoted
     view_label: "_Reporting Date Tools"
     group_label: "4-5-4 Tools ({{ _view._name}})"
-    description: "Toggle to do YoY analsis. Yes == compare to the year prior to what you set for Fiscal Year parameter"
+    description: "Toggle to do YoY analsis. Yes == compare to the year prior to what you set for 454 Year parameter"
     allowed_value: {label: "Yes" value: "yes"}
     allowed_value: {label: "No" value: "no"}
   }
@@ -16,11 +16,11 @@ view: 454_tools_parameters {
     label: "Begin Interval ({{ _view._name}})"
     view_label: "_Reporting Date Tools"
     group_label: "4-5-4 Tools ({{ _view._name}})"
-    description: "After selecting Interval parameter, use this for which number you want. Ex: If Interval = Fiscal Week and Begin Interval = 1, then the
-    dates will be filtered to start at Fiscal Week 1. MAKE SURE TO SET FISCAL YEAR PARAMETER"
+    description: "After selecting Interval parameter, use this for which number you want. Ex: If Interval = 454 Week and Begin Interval = 1, then the
+    dates will be filtered to start at 454 Week 1. MAKE SURE TO SET 454 YEAR PARAMETER"
     suggestions: ["1","2",
-      "first_day_current_fiscal_week", "first_day_current_fiscal_month","first_day_current_fiscal_quarter", "first_day_current_fiscal_year",
-      "first_day_last_fiscal_week",
+      "first_day_current_454_week", "first_day_current_454_month","first_day_current_454_quarter", "first_day_current_454_year",
+      "first_day_last_454_week",
       "today", "yesterday"]
   }
 
@@ -29,11 +29,11 @@ view: 454_tools_parameters {
     view_label: "_Reporting Date Tools"
     label: "End Interval ({{ _view._name}})"
     group_label: "4-5-4 Tools ({{ _view._name}})"
-    description: "After selecting Interval parameter, use this for which number you want. Ex: If Interval = Fiscal Month and End Interval = 10, then the
-    dates will be filtered to end at the end of Fiscal Month 10. MAKE SURE TO SET FISCAL YEAR PARAMETER"
+    description: "After selecting Interval parameter, use this for which number you want. Ex: If Interval = 454 Month and End Interval = 10, then the
+    dates will be filtered to end at the end of 454 Month 10. MAKE SURE TO SET 454 YEAR PARAMETER"
     suggestions: ["1","2", "today", "yesterday",
-      "before_current_fiscal_week", "before_current_fiscal_month", "before_current_fiscal_quarter",
-      "last_day_current_fiscal_week","last_day_current_fiscal_month", "last_day_current_fiscal_quarter", "last_day_current_fiscal_year"
+      "before_current_454_week", "before_current_454_month", "before_current_454_quarter",
+      "last_day_current_454_week","last_day_current_454_month", "last_day_current_454_quarter", "last_day_current_454_year"
     ]
   }
 
@@ -43,11 +43,11 @@ view: 454_tools_parameters {
     label: "Begin Interval Type ({{ _view._name}})"
     description: "Select which date interval you want to filter by"
     type: unquoted
-    allowed_value: {label: "Fiscal Week" value: "week"}
-    allowed_value: {label: "Fiscal Month" value: "month"}
-    allowed_value: {label: "Fiscal Quarter" value: "quarter"}
-    allowed_value: {label: "Repository Variables (Do not use Fiscal Year Parameter)" value: "repo"}
-    allowed_value: {label: "+/- Fiscal Weeks (Do not use Fiscal Year Parameter)" value: "full_periods_week"}
+    allowed_value: {label: "454 Week" value: "week"}
+    allowed_value: {label: "454 Month" value: "month"}
+    allowed_value: {label: "454 Quarter" value: "quarter"}
+    allowed_value: {label: "Repository Variables (Do not use 454 Year Parameter)" value: "repo"}
+    allowed_value: {label: "+/- 454 Weeks (Do not use 454 Year Parameter)" value: "full_periods_week"}
   }
 
   parameter: 454interval_end {
@@ -56,11 +56,11 @@ view: 454_tools_parameters {
     label: "End Interval Type ({{ _view._name}})"
     description: "Select which date interval you want to filter by"
     type: unquoted
-    allowed_value: {label: "Fiscal Week" value: "week"}
-    allowed_value: {label: "Fiscal Month" value: "month"}
-    allowed_value: {label: "Fiscal Quarter" value: "quarter"}
-    allowed_value: {label: "Repository Variables (Do not use Fiscal Year Parameter)" value: "repo"}
-    allowed_value: {label: "+/- Fiscal Weeks (Do not use Fiscal Year Parameter)" value: "full_periods_week"}
+    allowed_value: {label: "454 Week" value: "week"}
+    allowed_value: {label: "454 Month" value: "month"}
+    allowed_value: {label: "454 Quarter" value: "quarter"}
+    allowed_value: {label: "Repository Variables (Do not use 454 Year Parameter)" value: "repo"}
+    allowed_value: {label: "+/- 454 Weeks (Do not use 454 Year Parameter)" value: "full_periods_week"}
   }
 
   parameter: N_start_addsub {
@@ -68,7 +68,7 @@ view: 454_tools_parameters {
     view_label: "_Reporting Date Tools"
     group_label: "4-5-4 Tools ({{ _view._name}})"
     label: "Begin Interval Add/Sub ({{ _view._name}})"
-    description: "To be combined with Begin Interval Type and Begin Interval parameters. Begin Interval Type must be set to +/- Fiscal Weeks or Months"
+    description: "To be combined with Begin Interval Type and Begin Interval parameters. Begin Interval Type must be set to +/- 454 Weeks or Months"
     allowed_value: {label:"+" value:"+"}
     allowed_value: {label:"-" value:"-"}
   }
@@ -78,23 +78,23 @@ view: 454_tools_parameters {
     group_label: "4-5-4 Tools ({{ _view._name}})"
     view_label: "_Reporting Date Tools"
     label: "End Interval Add/Sub ({{ _view._name}})"
-    description: "To be combined with End Interval Type and End Interval parameters. End Interval Type must be set to +/- Fiscal Weeks or Months"
+    description: "To be combined with End Interval Type and End Interval parameters. End Interval Type must be set to +/- 454 Weeks or Months"
     allowed_value: {label:"+" value:"+"}
     allowed_value: {label:"-" value:"-"}
   }
 
   parameter: FY_start {
-    label: "Begin Fiscal Year ({{ _view._name}})"
+    label: "Begin 454 Year ({{ _view._name}})"
     type: unquoted
-    description: "MUST DEFINE to use 4-5-4 Tools when filtering for specific Fiscal week/month/quarter"
+    description: "MUST DEFINE to use 4-5-4 Tools when filtering for specific 454 week/month/quarter"
     view_label: "_Reporting Date Tools"
     group_label: "4-5-4 Tools ({{ _view._name}})"
   }
 
   parameter: FY_end {
-    label: "End Fiscal Year ({{ _view._name}})"
+    label: "End 454 Year ({{ _view._name}})"
     type: unquoted
-    description: "MUST DEFINE to use 4-5-4 Tools when filtering for specific Fiscal week/month/quarter"
+    description: "MUST DEFINE to use 4-5-4 Tools when filtering for specific 454 week/month/quarter"
     view_label: "_Reporting Date Tools"
     group_label: "4-5-4 Tools ({{ _view._name}})"
   }
@@ -104,7 +104,7 @@ view: 454_tools_parameters {
 view:  454_tools {
 
   ## Contains the final start/end dates and N values used and
-  ## Fiscal Filters
+  ## 454 Filters
 
   extension: required
 
@@ -128,7 +128,7 @@ view:  454_tools {
     ## FY_start defined in 454_fixed_period_filters view
     ## Had to hardcore start_date for 2021 because for some reason it started earlier than expected
     ## based on patterns seen from previous years
-    description: "First Date of Year for Begin Interval param for when Interval Type is Fiscal Wk/Mth/Qtr"
+    description: "First Date of Year for Begin Interval param for when Interval Type is 454 Wk/Mth/Qtr"
     hidden: yes
     sql:
     {% if 454interval_start._parameter_value == 'week' or 454interval_start._parameter_value == 'month' or 454interval_start._parameter_value == 'quarter'%}
@@ -141,7 +141,7 @@ view:  454_tools {
       {% elsif FY_start._parameter_value == '2021' %}
       date("{{ FY_start._parameter_value }}-01-01")
       {% else %}
-      you have to use START FISCAL YEAR parameter
+      you have to use START 454 YEAR parameter
       {% endif %}
     {% endif %}
     ;;
@@ -152,7 +152,7 @@ view:  454_tools {
     ## Had to hardcore start_date for 2021 because for some reason it started earlier than expected
     ## based on patterns seen from previous years
     hidden: yes
-    description: "First Date of year for the End Interval param when Interval Type is Fiscal Wk/Mth/Qtr"
+    description: "First Date of year for the End Interval param when Interval Type is 454 Wk/Mth/Qtr"
     sql:
     {% if 454interval_end._parameter_value == 'week' or 454interval_end._parameter_value == 'month' or 454interval_end._parameter_value == 'quarter'%}
       {%if FY_end._is_filtered and FY_end._parameter_value <> '2021'  | sql_boolean %}
@@ -164,7 +164,7 @@ view:  454_tools {
       {% elsif FY_end._parameter_value == '2021' %}
       date("{{ FY_end._parameter_value }}-01-01")
       {% else %}
-      you have to use END FISCAL YEAR parameter
+      you have to use END 454 YEAR parameter
       {% endif %}
     {% endif %}
 
@@ -229,15 +229,15 @@ view:  454_tools {
         ${current_ts_date}
       {% elsif N_start._parameter_value == 'yesterday' %}
         date_sub(${current_ts_date}, interval 1 day)
-      {% elsif N_start._parameter_value == 'first_day_current_fiscal_week' %}
+      {% elsif N_start._parameter_value == 'first_day_current_454_week' %}
         ${first_day_current_wk}
-      {% elsif N_start._parameter_value == 'first_day_current_fiscal_month' %}
-        ${fiscal_month_first_day}
-      {% elsif N_start._parameter_value == 'first_day_current_fiscal_quarter' %}
-        ${fiscal_quarter_first_day}
-      {% elsif N_start._parameter_value == 'first_day_current_fiscal_year' %}
-        ${fiscal_year_first_day}
-      {% elsif N_start._parameter_value == 'first_day_last_fiscal_week' %}
+      {% elsif N_start._parameter_value == 'first_day_current_454_month' %}
+        ${454_month_first_day}
+      {% elsif N_start._parameter_value == 'first_day_current_454_quarter' %}
+        ${454_quarter_first_day}
+      {% elsif N_start._parameter_value == 'first_day_current_454_year' %}
+        ${454_year_first_day}
+      {% elsif N_start._parameter_value == 'first_day_last_454_week' %}
         date_sub(${first_day_current_wk}, interval 1 week)
       {% else %}
       Repository variable not found
@@ -255,7 +255,7 @@ view:  454_tools {
         date_trunc(${454_start_date}, week ), interval ${N_start_value} week
       )
       {% else %}
-      Need to include Start Fiscal Year parameter
+      Need to include Start 454 Year parameter
       {% endif %}
     {% else %}
     USE FILTER CORRECTLY
@@ -271,20 +271,20 @@ view:  454_tools {
         ${current_ts_date}
       {% elsif N_end._parameter_value == 'today' %}
         date_add(${current_ts_date}, interval 1 day)
-      {% elsif N_end._parameter_value == 'before_current_fiscal_week' %}
+      {% elsif N_end._parameter_value == 'before_current_454_week' %}
         ${first_day_current_wk}
-      {% elsif N_end._parameter_value == 'before_current_fiscal_month' %}
-        ${fiscal_month_first_day}
-      {% elsif N_end._parameter_value == 'before_current_fiscal_quarter' %}
-        ${fiscal_quarter_first_day}
-      {% elsif N_end._parameter_value == 'last_day_current_fiscal_week' %}
+      {% elsif N_end._parameter_value == 'before_current_454_month' %}
+        ${454_month_first_day}
+      {% elsif N_end._parameter_value == 'before_current_454_quarter' %}
+        ${454_quarter_first_day}
+      {% elsif N_end._parameter_value == 'last_day_current_454_week' %}
         date_add(${last_day_current_wk}, interval 1 day)
-      {% elsif N_end._parameter_value == 'last_day_current_fiscal_month' %}
-        ${fiscal_month_last_day}
-      {% elsif N_end._parameter_value == 'last_day_current_fiscal_quarter' %}
-        ${fiscal_quarter_last_day}
-      {% elsif N_end._parameter_value == 'last_day_current_fiscal_year' %}
-        ${fiscal_year_last_day}
+      {% elsif N_end._parameter_value == 'last_day_current_454_month' %}
+        ${454_month_last_day}
+      {% elsif N_end._parameter_value == 'last_day_current_454_quarter' %}
+        ${454_quarter_last_day}
+      {% elsif N_end._parameter_value == 'last_day_current_454_year' %}
+        ${454_year_last_day}
       {% else %}
       REPOSITORY VARIABLE NOT FOUND
       {% endif %}
@@ -313,15 +313,15 @@ view:  454_tools {
         ${py_current_date}
       {% elsif N_start._parameter_value == 'yesterday' %}
         date_sub(${py_current_date}, interval 1 day)
-      {% elsif N_start._parameter_value == 'first_day_current_fiscal_week' %}
+      {% elsif N_start._parameter_value == 'first_day_current_454_week' %}
         ${py_first_day_current_wk}
-      {% elsif N_start._parameter_value == 'first_day_current_fiscal_month' %}
-        ${py_fiscal_month_first_day}
-      {% elsif N_start._parameter_value == 'first_day_current_fiscal_quarter' %}
-        ${py_fiscal_quarter_first_day}
-      {% elsif N_start._parameter_value == 'first_day_current_fiscal_year' %}
-        ${py_fiscal_year_first_day}
-      {% elsif N_start._parameter_value == 'first_day_last_fiscal_week' %}
+      {% elsif N_start._parameter_value == 'first_day_current_454_month' %}
+        ${py_454_month_first_day}
+      {% elsif N_start._parameter_value == 'first_day_current_454_quarter' %}
+        ${py_454_quarter_first_day}
+      {% elsif N_start._parameter_value == 'first_day_current_454_year' %}
+        ${py_454_year_first_day}
+      {% elsif N_start._parameter_value == 'first_day_last_454_week' %}
         date_sub(${py_first_day_current_wk}, interval 1 week)
       {% else %}
       Repository variable not found
@@ -337,7 +337,7 @@ view:  454_tools {
       {% if FY_start._is_filtered | sql_boolean %}
       date_add(${fixed_start_date_FY_start_previous_yr}, interval ${N_start_value} week)
       {% else %}
-      Need to include Start Fiscal Year parameter
+      Need to include Start 454 Year parameter
       {% endif %}
     {% else %}
     USE FILTER CORRECTLY
@@ -353,20 +353,20 @@ view:  454_tools {
         ${py_current_date}
       {% elsif N_end._parameter_value == 'today' %}
         date_add(${py_current_date}, interval 1 day)
-      {% elsif N_end._parameter_value == 'before_current_fiscal_week' %}
+      {% elsif N_end._parameter_value == 'before_current_454_week' %}
         ${py_first_day_current_wk}
-      {% elsif N_end._parameter_value == 'before_current_fiscal_month' %}
-        ${py_fiscal_month_first_day}
-      {% elsif N_end._parameter_value == 'before_current_fiscal_quarter' %}
-        ${py_fiscal_quarter_first_day}
-      {% elsif N_end._parameter_value == 'last_day_current_fiscal_week' %}
+      {% elsif N_end._parameter_value == 'before_current_454_month' %}
+        ${py_454_month_first_day}
+      {% elsif N_end._parameter_value == 'before_current_454_quarter' %}
+        ${py_454_quarter_first_day}
+      {% elsif N_end._parameter_value == 'last_day_current_454_week' %}
         date_add(${py_last_day_current_wk}, interval 1 day)
-      {% elsif N_end._parameter_value == 'last_day_current_fiscal_month' %}
-        ${py_fiscal_month_last_day}
-      {% elsif N_end._parameter_value == 'last_day_current_fiscal_quarter' %}
-        ${py_fiscal_quarter_last_day}
-      {% elsif N_end._parameter_value == 'last_day_current_fiscal_year' %}
-        ${py_fiscal_year_last_day}
+      {% elsif N_end._parameter_value == 'last_day_current_454_month' %}
+        ${py_454_month_last_day}
+      {% elsif N_end._parameter_value == 'last_day_current_454_quarter' %}
+        ${py_454_quarter_last_day}
+      {% elsif N_end._parameter_value == 'last_day_current_454_year' %}
+        ${py_454_year_last_day}
       {% else %}
       REPOSITORY VARIABLE NOT FOUND
       {% endif %}
@@ -392,7 +392,7 @@ view:  454_tools {
   ## Then you need to do partition_field >= ${start_interval} and partition_field <= ${end_interval}
   ## Elseif ${start_date} and ${end_date} are both calculated with BQ native funcs OR UDFs, then you can just use BETWEEN
   ## Doesn't matter what ${start_interval} is that's why N_end is only used in liquid if-else logic below
-  filter: FISCAL_FILTER {
+  filter: 454_FILTER {
     view_label: "_Reporting Date Tools"
     hidden: no
     group_label: "4-5-4 Tools ({{ _view._name}})"
@@ -448,19 +448,19 @@ view: repository_variables {
 
   dimension: current_fy {
     hidden: yes
-    description: "Current Fiscal Year"
-    sql: elcap.cal_tools_fiscal_year(${current_ts_date}) ;;
+    description: "Current 454 Year"
+    sql: elcap.cal_tools_year(${current_ts_date}) ;;
   }
 
   dimension: start_date_first_wk_current_yr {
     hidden: yes
     description: "First Day of FW01 of Current Year"
-    sql: elcap.cal_tools_fiscal_year_start(${current_fy}) ;;
+    sql: elcap.cal_tools_year_start(${current_fy}) ;;
   }
 
   dimension: num_fw_current_year {
     hidden: yes
-    description: "Number of Fiscal Weeks of Current Year (ie last FW of current year)"
+    description: "Number of 454 Weeks of Current Year (ie last FW of current year)"
     sql: elcap.cal_tools_num_wks(${current_fy}) ;;
   }
 
@@ -481,36 +481,36 @@ view: repository_variables {
     sql: elcap.cal_tools_fw_to_fq(${current_fw_num}) ;;
   }
 
-  dimension: fiscal_month_first_day {
+  dimension: 454_month_first_day {
     hidden: yes
-    sql: elcap.cal_tools_fiscal_month_start(${start_date_first_wk_current_yr}, ${current_fw_num});;
+    sql: elcap.cal_tools_month_start(${start_date_first_wk_current_yr}, ${current_fw_num});;
   }
 
-  dimension: fiscal_month_last_day {
+  dimension: 454_month_last_day {
     hidden: yes
-    sql: date_sub(elcap.cal_tools_fiscal_month_end(${current_fy}, ${current_fw_num}), interval 1 day);;
+    sql: date_sub(elcap.cal_tools_month_end(${current_fy}, ${current_fw_num}), interval 1 day);;
   }
 
-  dimension: fiscal_quarter_first_day {
-    hidden: yes
-    type: date
-    datatype: date
-    sql: elcap.cal_tools_fiscal_qtr_start(${start_date_first_wk_current_yr}, ${current_fw_num});;
-  }
-
-  dimension: fiscal_quarter_last_day {
+  dimension: 454_quarter_first_day {
     hidden: yes
     type: date
     datatype: date
-    sql: date_sub(elcap.cal_tools_fiscal_qtr_end(${start_date_first_wk_current_yr}, ${current_fw_num}), interval 1 day);;
+    sql: elcap.cal_tools_qtr_start(${start_date_first_wk_current_yr}, ${current_fw_num});;
   }
 
-  dimension: fiscal_year_first_day {
+  dimension: 454_quarter_last_day {
+    hidden: yes
+    type: date
+    datatype: date
+    sql: date_sub(elcap.cal_tools_qtr_end(${start_date_first_wk_current_yr}, ${current_fw_num}), interval 1 day);;
+  }
+
+  dimension: 454_year_first_day {
     hidden: yes
     sql: ${start_date_first_wk_current_yr} ;;
   }
 
-  dimension: fiscal_year_last_day {
+  dimension: 454_year_last_day {
     hidden:  yes
     sql: date_sub(date_add(${start_date_first_wk_current_yr}, interval ${num_fw_current_year} week), interval 1 day) ;;
   }
@@ -530,12 +530,12 @@ view: py_repository_variables {
   dimension: start_date_first_wk_previous_yr {
     hidden: yes
     description: "First Day of FW01 of Previous Year"
-    sql: elcap.cal_tools_fiscal_year_start(${previous_year}) ;;
+    sql: elcap.cal_tools_year_start(${previous_year}) ;;
   }
 
   dimension: num_fw_previous_year {
     hidden: yes
-    description: "Number of Fiscal Weeks of Previous Year (ie last FW of current year)"
+    description: "Number of 454 Weeks of Previous Year (ie last FW of current year)"
     sql: elcap.cal_tools_num_wks(${previous_year})  ;;
   }
 
@@ -566,38 +566,38 @@ view: py_repository_variables {
     sql: ${current_fq_num} ;;
   }
 
-  dimension: py_fiscal_month_first_day {
+  dimension: py_454_month_first_day {
     hidden: yes
     sql:
-    elcap.cal_tools_fiscal_month_start(${start_date_first_wk_previous_yr}, ${current_fw_num})
+    elcap.cal_tools_month_start(${start_date_first_wk_previous_yr}, ${current_fw_num})
     ;;
   }
 
-  dimension: py_fiscal_month_last_day {
+  dimension: py_454_month_last_day {
     hidden: yes
-    sql: date_sub(elcap.cal_tools_fiscal_month_end(${previous_year}, ${current_fw_num}), interval 1 day);;
+    sql: date_sub(elcap.cal_tools_month_end(${previous_year}, ${current_fw_num}), interval 1 day);;
   }
 
-  dimension: py_fiscal_quarter_first_day {
-    hidden: yes
-    type: date
-    datatype: date
-    sql: elcap.cal_tools_fiscal_qtr_start(${start_date_first_wk_previous_yr}, ${current_fw_num}) ;;
-  }
-
-  dimension: py_fiscal_quarter_last_day {
+  dimension: py_454_quarter_first_day {
     hidden: yes
     type: date
     datatype: date
-    sql: date_sub(elcap.cal_tools_fiscal_qtr_end(${start_date_first_wk_previous_yr}, ${current_fw_num}), interval 1 day);;
+    sql: elcap.cal_tools_qtr_start(${start_date_first_wk_previous_yr}, ${current_fw_num}) ;;
   }
 
-  dimension: py_fiscal_year_first_day {
+  dimension: py_454_quarter_last_day {
+    hidden: yes
+    type: date
+    datatype: date
+    sql: date_sub(elcap.cal_tools_qtr_end(${start_date_first_wk_previous_yr}, ${current_fw_num}), interval 1 day);;
+  }
+
+  dimension: py_454_year_first_day {
     hidden: yes
     sql: ${start_date_first_wk_previous_yr} ;;
   }
 
-  dimension: py_fiscal_year_last_day {
+  dimension: py_454_year_last_day {
     hidden:  yes
     sql: date_Sub(date_add(${start_date_first_wk_previous_yr}, interval ${num_fw_previous_year} week),interval 1 day) ;;
   }
@@ -605,7 +605,7 @@ view: py_repository_variables {
 
 
 
-# View containing dimensions/measures for fixed fiscal periods
+# View containing dimensions/measures for fixed 454 periods
 view: 454_fixed_period_filters {
 
   ## Contains parameters and Dimensions used
@@ -678,7 +678,7 @@ view: 454_fixed_period_filters {
   ####################
 
   ## Dimensions to calculate number of weeks to add to beginning of year
-  ## To get correcnt fiscal wk/mth/qtr
+  ## To get correcnt 454 wk/mth/qtr
 
   dimension: N_start_value_month {
     type: number
@@ -782,17 +782,17 @@ view: 454_fixed_period_filters {
 
   dimension: fixed_start_date_FY_start_previous_yr {
     hidden: yes
-    description: "First Day of FW01 of Previous Year based on Begin Fiscal Year parameter"
+    description: "First Day of FW01 of Previous Year based on Begin 454 Year parameter"
     sql:
-      elcap.cal_tools_fiscal_year_start({{ FY_start._parameter_value }}-1)
+      elcap.cal_tools_year_start({{ FY_start._parameter_value }}-1)
       ;;
   }
 
   dimension: fixed_start_date_FY_end_previous_yr {
     hidden: yes
-    description: "First Day of FW01 of Previous Year based on End Fiscal Year parameter"
+    description: "First Day of FW01 of Previous Year based on End 454 Year parameter"
     sql:
-      elcap.cal_tools_fiscal_year_start({{ FY_end._parameter_value }}-1)
+      elcap.cal_tools_year_start({{ FY_end._parameter_value }}-1)
       ;;
   }
 }
