@@ -449,63 +449,60 @@ view: repository_variables {
   dimension: current_fy {
     hidden: yes
     description: "Current Fiscal Year"
-    sql: elcap.merch_cal_tools_fiscal_year(${current_ts_date}) ;;
+    sql: elcap.cal_tools_fiscal_year(${current_ts_date}) ;;
   }
 
   dimension: start_date_first_wk_current_yr {
     hidden: yes
     description: "First Day of FW01 of Current Year"
-    sql:
-      elcap.merch_cal_tools_fiscal_year_start(${current_fy})
-      ;;
+    sql: elcap.cal_tools_fiscal_year_start(${current_fy}) ;;
   }
 
   dimension: num_fw_current_year {
     hidden: yes
     description: "Number of Fiscal Weeks of Current Year (ie last FW of current year)"
-    sql:
-    elcap.merch_cal_tools_num_wks(${current_fy})    ;;
+    sql: elcap.cal_tools_num_wks(${current_fy}) ;;
   }
 
   dimension: current_fw_num {
     hidden: yes
-    sql: elcap.merch_cal_tools_current_fw_num("{{ _query._query_timezone }}") ;;
+    sql: elcap.cal_tools_current_fw_num("{{ _query._query_timezone }}") ;;
   }
 
   dimension: current_fm_num {
     hidden: yes
     type: number
-    sql: elcap.merch_cal_tools_fw_to_fm(${current_fw_num}) ;;
+    sql: elcap.cal_tools_fw_to_fm(${current_fw_num}) ;;
   }
 
   dimension: current_fq_num {
     hidden: yes
     type: number
-    sql: elcap.merch_cal_tools_fw_to_fq(${current_fw_num}) ;;
+    sql: elcap.cal_tools_fw_to_fq(${current_fw_num}) ;;
   }
 
   dimension: fiscal_month_first_day {
     hidden: yes
-    sql: elcap.merch_cal_tools_fiscal_month_start(${start_date_first_wk_current_yr}, ${current_fw_num});;
+    sql: elcap.cal_tools_fiscal_month_start(${start_date_first_wk_current_yr}, ${current_fw_num});;
   }
 
   dimension: fiscal_month_last_day {
     hidden: yes
-    sql: date_sub(elcap.merch_cal_tools_fiscal_month_end(${current_fy}, ${current_fw_num}), interval 1 day);;
+    sql: date_sub(elcap.cal_tools_fiscal_month_end(${current_fy}, ${current_fw_num}), interval 1 day);;
   }
 
   dimension: fiscal_quarter_first_day {
     hidden: yes
     type: date
     datatype: date
-    sql: elcap.merch_cal_tools_fiscal_qtr_start(${start_date_first_wk_current_yr}, ${current_fw_num});;
+    sql: elcap.cal_tools_fiscal_qtr_start(${start_date_first_wk_current_yr}, ${current_fw_num});;
   }
 
   dimension: fiscal_quarter_last_day {
     hidden: yes
     type: date
     datatype: date
-    sql: date_sub(elcap.merch_cal_tools_fiscal_qtr_end(${start_date_first_wk_current_yr}, ${current_fw_num}), interval 1 day);;
+    sql: date_sub(elcap.cal_tools_fiscal_qtr_end(${start_date_first_wk_current_yr}, ${current_fw_num}), interval 1 day);;
   }
 
   dimension: fiscal_year_first_day {
@@ -533,15 +530,13 @@ view: py_repository_variables {
   dimension: start_date_first_wk_previous_yr {
     hidden: yes
     description: "First Day of FW01 of Previous Year"
-    sql:
-      elcap.merch_cal_tools_fiscal_year_start(${previous_year})
-      ;;
+    sql: elcap.cal_tools_fiscal_year_start(${previous_year}) ;;
   }
 
   dimension: num_fw_previous_year {
     hidden: yes
     description: "Number of Fiscal Weeks of Previous Year (ie last FW of current year)"
-    sql: elcap.merch_cal_tools_num_wks(${previous_year})  ;;
+    sql: elcap.cal_tools_num_wks(${previous_year})  ;;
   }
 
   dimension: py_first_day_current_wk {
@@ -562,42 +557,39 @@ view: py_repository_variables {
   dimension: py_fm_num {
     hidden: yes
     type: number
-    sql:
-      ${current_fm_num} ;;
+    sql: ${current_fm_num} ;;
   }
 
   dimension: py_fq_num {
     hidden: yes
     type: number
-    sql:
-      ${current_fq_num}
-      ;;
+    sql: ${current_fq_num} ;;
   }
 
   dimension: py_fiscal_month_first_day {
     hidden: yes
     sql:
-    elcap.merch_cal_tools_fiscal_month_start(${start_date_first_wk_previous_yr}, ${current_fw_num})
+    elcap.cal_tools_fiscal_month_start(${start_date_first_wk_previous_yr}, ${current_fw_num})
     ;;
   }
 
   dimension: py_fiscal_month_last_day {
     hidden: yes
-    sql: date_sub(elcap.merch_cal_tools_fiscal_month_end(${previous_year}, ${current_fw_num}), interval 1 day);;
+    sql: date_sub(elcap.cal_tools_fiscal_month_end(${previous_year}, ${current_fw_num}), interval 1 day);;
   }
 
   dimension: py_fiscal_quarter_first_day {
     hidden: yes
     type: date
     datatype: date
-    sql: elcap.merch_cal_tools_fiscal_qtr_start(${start_date_first_wk_previous_yr}, ${current_fw_num}) ;;
+    sql: elcap.cal_tools_fiscal_qtr_start(${start_date_first_wk_previous_yr}, ${current_fw_num}) ;;
   }
 
   dimension: py_fiscal_quarter_last_day {
     hidden: yes
     type: date
     datatype: date
-    sql: date_sub(elcap.merch_cal_tools_fiscal_qtr_end(${start_date_first_wk_previous_yr}, ${current_fw_num}), interval 1 day);;
+    sql: date_sub(elcap.cal_tools_fiscal_qtr_end(${start_date_first_wk_previous_yr}, ${current_fw_num}), interval 1 day);;
   }
 
   dimension: py_fiscal_year_first_day {
@@ -792,7 +784,7 @@ view: 454_fixed_period_filters {
     hidden: yes
     description: "First Day of FW01 of Previous Year based on Begin Fiscal Year parameter"
     sql:
-      elcap.merch_cal_tools_fiscal_year_start({{ FY_start._parameter_value }}-1)
+      elcap.cal_tools_fiscal_year_start({{ FY_start._parameter_value }}-1)
       ;;
   }
 
@@ -800,7 +792,7 @@ view: 454_fixed_period_filters {
     hidden: yes
     description: "First Day of FW01 of Previous Year based on End Fiscal Year parameter"
     sql:
-      elcap.merch_cal_tools_fiscal_year_start({{ FY_end._parameter_value }}-1)
+      elcap.cal_tools_fiscal_year_start({{ FY_end._parameter_value }}-1)
       ;;
   }
 }
