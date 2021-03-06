@@ -65,7 +65,10 @@ The BigQuery UDFs can be found in the [bq_udf](bq_udf) folder in this repo and t
 created in your BigQuery project to use the LookML blck. The LookML blocks can be found in 
 [`454_tools.view`](454_tools.view).
 
-### Views
+<details>
+<summary><h3>Views</h3></summary>
+<p>
+    
 There are 5 views defined in [`454_tools.view`](454_tools.view) file:
 - 454_tools_parameters
     - Contains only parameters. Can be extended by other views for binding filters
@@ -79,10 +82,24 @@ There are 5 views defined in [`454_tools.view`](454_tools.view) file:
 - 454_fixed_period_filters
     - Contains dimensions and filters for finding specific 454 dates (i.e., not dynamic)
 
-### Fixed Period Filters
+<details>
+<summary><h4>Fixed Period Filters</h4></summary>
+<p>
+    
+<summary><h5>What Year is it in 454 calendar?</h5></summary> 
 
-#### What Year is it in 454 calendar?
 This question alone is difficult to answer when you're at the beginning/end of a calendar year. As mentioned above,
 a year can start in December or January in a 454 calendar.
 
-#### Repository Variables
+</p>
+</details>
+
+
+<details>
+<summary><h4>Repository Variables</h4></summary>
+<p>
+
+</p>
+</details>
+</p>
+</details>
