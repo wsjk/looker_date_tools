@@ -80,10 +80,128 @@ There are 5 views defined in [`454_tools.view`](454_tools.view) file:
 - 454_fixed_period_filters
     - Contains dimensions and filters for finding specific 454 dates (i.e., not dynamic)
 
+All filters are viewable under the view label: `_Reporting Date Tools`
+and group label: `4-5-4 Tools ({{ _view._name}})`
+
 <details>
-<summary><h4>Parameters</h4></summary>
+<summary><h4>454 Tools</h4></summary>
 <p>
 
+The `454_tools` view extends `454_parameters`, `454_fixed_period_filters`, `repository_variables`, and 
+`py_repository_variables`. This is the view that is extended in a view that is based off a table so that
+users have access to the date filters tools. 
+
+An example of how to extend `454_tools` in a view so that users can see date filters in the Explore:
+
+<details>
+<summary>Show Example</summary>
+<p>
+
+```buildoutcfg
+include: "/path/to/454_tools.view"
+
+view: orders {
+    extends: [454_tools] ## Now this view can use the date filters in 454_tools
+    sql_table_name: dataset.orders ;;
+    
+    ## overrides the partition_field_param parameter in 454_tools.view
+    ## with the field specific for this view
+    parameter: partition_field_param {
+      type: unquoted
+      hidden: yes
+      allowed_value: {
+        label: "order_date"
+        value: "order_date"
+      }
+    }
+    
+    dimension_group: order_date {
+        # order_date is a timestamp
+        # dataset.orders table is partitioned on date(order_date)
+        type: time
+        sql: ${TABLE}.order_date 
+    }
+    
+    dimension: order_id {
+        type: number
+        sql: ${TABLE}.order_id
+    }
+    
+    dimension: sales {
+        type: number
+        sql: ${TABLE}.sales
+    }
+    
+    measure: total_sales {
+        type: sum
+        sql: ${sales}
+    }
+    
+}
+
+explore:  orders {
+    from: orders
+    
+    # partition field must be defined to use 454_tools
+    always_filter: {
+      filters: [partition_field_param: ""]
+    }
+
+    # need these to make sure partition fields are always being filtered
+    sql_always_where:
+      ${454_FILTER} ;;
+}
+```
+</p>
+</details>
+
+<details>
+<summary><h6>454_FILTER</h6></summary>
+<p>
+
+In example above, the `orders` Explore always filters `${454_FILTER}` which is a filter defined in 
+`454_tools` view. This is the final filter applied where the `partition_field_param` (i.e., partition date field)
+is filtered in a `WHERE` clause. 
+
+Using Looker's Liquid syntax, we apply different filters based on certain conditions regarding the parameters
+used. Furthermore, we assume the `partition_field_param` is a timestamp and it is converted to a `DATE` when filtered.
+
+The `454_FILTER` is essentially the following:
+```buildoutcfg
+date( partition field ) between start_date and end_date
+```
+
+and if a year-over-year analysis is desired:
+```buildoutcfg
+date( partition field ) between start_interval and end_interval
+or 
+date( partition field) between previous_year_start_interval and previous_year_end_interval
+```
+
+</p>
+</details>
+
+<details>
+<summary><h6>Start Interval</h6></summary>
+<p>
+
+</p>
+</details>
+
+<details>
+<summary><h6>End Interval</h6></summary>
+<p>
+
+</p>
+</details>
+
+<details>
+<summary><h6>N Start/End</h6></summary>
+<p>
+
+</p>
+</details>
+    
 </p>
 </details>
 
@@ -91,12 +209,10 @@ There are 5 views defined in [`454_tools.view`](454_tools.view) file:
 <details>
 <summary><h4>Fixed Period Filters</h4></summary>
 <p>
+
+These filters can be used for when users want to view a very specific time interval within 454 calendar. In this
+instance, the user has to define the year and the week, month, or quarter.
     
-<summary><h5>What Year is it in 454 calendar?</h5></summary> 
-
-This question alone is difficult to answer when you're at the beginning/end of a calendar year. As mentioned above,
-a year can start in December or January in a 454 calendar.
-
 </p>
 </details>
 
@@ -105,6 +221,184 @@ a year can start in December or January in a 454 calendar.
 <summary><h4>Repository Variables</h4></summary>
 <p>
 
+The `repository_variable` and `py_repository_variable` views contains LookML code to custom variables 
+-- similar to Looker filter expressions -- to represent custom filter definitions based on current date
+(`repository_variable`) and previous year (`py_repository_variable`). 
+
+Key differences compared to Fixed Period Filters:
+
+- Users can choose from a menu of human-readable options to apply date filters
+- It is dynamic/rolling because it is always based on the current date
+  - Useful for creating automated reports
+
+<details>
+<summary><h6>What Year Is It In 454 calendar?</h6></summary> 
+
+This question alone is difficult to answer when you're at the beginning/end of a calendar year. As mentioned above,
+a year can start in December or January in a 454 calendar.
+
+</details>
+
+<details>
+<summary><h6>What Week Is It In 454 calendar?</h6></summary> 
+
+</details>
+
+<details>
+<summary><h6>What Month Is It In 454 calendar?</h6></summary> 
+
+</details>
+
+<details>
+<summary><h6>What Quarter Is It In 454 calendar?</h6></summary> 
+
+</details>
+
+<details>
+<summary><h6>What Is The Equivalent of This Week/Month/Quarter Last Year In 454 calendar?</h6></summary> 
+
+</details>
+
 </p>
 </details>
 
+<details>
+<summary><h4>Parameters</h4></summary>
+<p>
+
+The `454_tools_parameters` view contains all the parameters required for users to filter dates. Separating
+them out allows for users to extend just the parameters in an NDT and then bind the filters.
+
+An example is shown below where we have a view called `orders` and an Explore based off that view also called
+`orders`. The `orders` view/Explore is built on top of a fact table in BigQuery that contains orderline level 
+of granularity and is partitioned on `order_date` field. A summary of `orders` aggregated at `order_date` level is created with an NDT called 
+`order_summary`. Users can now use `order_summary` Explore to join other views on a much smaller scale.   
+
+```buildoutcfg
+
+include: "/path/to/454_tools.view"
+
+view: orders {
+    extends: [454_tools]
+    sql_table_name: dataset.orders ;;
+    
+    ## overrides the partition_field_param parameter in 454_tools.view
+    ## with the field specific for this view
+    parameter: partition_field_param {
+      type: unquoted
+      hidden: yes
+      allowed_value: {
+        label: "order_date"
+        value: "order_date"
+      }
+    }
+    
+    dimension_group: order_date {
+        # order_date is a timestamp
+        # dataset.orders table is partitioned on date(order_date)
+        type: time
+        sql: ${TABLE}.order_date 
+    }
+    
+    dimension: order_id {
+        type: number
+        sql: ${TABLE}.order_id
+    }
+    
+    dimension: sales {
+        type: number
+        sql: ${TABLE}.sales
+    }
+    
+    measure: total_sales {
+        type: sum
+        sql: ${sales}
+    }
+    
+}
+
+explore: orders {
+    from: orders
+    # A fact table that contains orderline level information
+}
+
+view: order_summary {
+    # NDT that aggregates orders by day
+    extends: [454_parameters]
+    derived_table: {
+      explore_source: orders {
+        timezone: "query_timezone"
+        column: order_date_date {} 
+        column: order_id {}
+        column: total_sales {}
+        filters: {
+          # 454_tools.view requires a partition_field_param to be defined
+          field: orders.partition_field_param
+          value: "order_date"
+        }
+        ### Following bind filters are for parameters in 454_parameters
+        bind_filters: {
+        to_field: orders.FY_start
+        from_field: order_summary.FY_start
+        }
+        bind_filters: {
+          to_field: orders.N_start
+          from_field: order_summary.N_start
+        }
+        bind_filters: {
+          to_field: orders.454interval_start
+          from_field: order_summary.454interval_start
+        }
+        bind_filters: {
+          to_field: orders.FY_end
+          from_field: order_summary.FY_end
+        }
+        bind_filters: {
+          to_field: orders.N_end
+          from_field: order_summary.N_end
+        }
+        bind_filters: {
+          to_field: orders.454interval_end
+          from_field: order_summary.454interval_end
+        }
+        bind_filters: {
+          to_field: orders.compare_yoy
+          from_field: order_summary.compare_yoy
+        }
+        bind_filters: {
+          to_field: nested_sb_customer_transactions_daily__details.po_category
+          from_field: order_summary.po_category
+        }
+      }
+    }
+    
+    dimension: order_date {
+        sql: ${TABLE}.order_date_date
+    }
+    
+    dimension: order_id {}
+    
+    dimension: total_sales_per_order {
+        sql: ${TABLE}.total_sales
+    }
+    
+    measure: total_sales {
+        type:sum
+        sql: ${total_sales_per_order}
+    }   
+    
+}
+
+explore: order_summary {
+    from: order_summary
+    join: some_other_view {
+        sql_on: ${order_sumamry.order_id} = ${some_other_view.order_id}
+        relationship: one_to_one
+    }
+ }
+
+
+```
+
+</p>
+</details>
