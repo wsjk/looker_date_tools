@@ -83,6 +83,8 @@ There are 5 views defined in [`454_tools.view`](454_tools.view) file:
 All filters are viewable under the view label: `_Reporting Date Tools`
 and group label: `4-5-4 Tools ({{ _view._name}})`
 
+![](explore_screenshot.jpg)
+
 <details>
 <summary><h4>454 Tools</h4></summary>
 <p>
