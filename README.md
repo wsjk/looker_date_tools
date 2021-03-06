@@ -65,7 +65,9 @@ The BigQuery UDFs can be found in the [bq_udf](bq_udf) folder in this repo and t
 created in your BigQuery project to use the LookML blck. The LookML blocks can be found in 
 [`454_tools.view`](454_tools.view).
 
-### Views
+<details>
+<summary><h3>Views</h3></summary>
+<p>
     
 There are 5 views defined in [`454_tools.view`](454_tools.view) file:
 - 454_tools_parameters
@@ -405,8 +407,11 @@ explore: order_summary {
 </p>
 </details>
 
+</p>
+</details>
+
 <details>
-<summary><h3>Examples</h3></summary>
+<summary><h2>Examples</h2></summary>
 <p>
 
 When you want to filter anything by a date interval, you need a "start date" and an "end date".
@@ -446,3 +451,4 @@ of the next fiscal week:
   
 </p>
 </details>
+
