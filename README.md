@@ -198,7 +198,7 @@ date( partition field) between previous_year_start_interval and previous_year_en
 </details>
 
 <details>
-<summary><h6>N Start/End</h6></summary>
+<summary><h6>+/- N Intervals</h6></summary>
 <p>
 
 </p>
@@ -402,5 +402,47 @@ explore: order_summary {
 
 ```
 
+</p>
+</details>
+
+<details>
+<summary><h3>Examples</h3></summary>
+<p>
+
+When you want to filter anything by a date interval, you need a "start date" and an "end date".
+
+There are two categories of filters: `Begin` and `End` that correspond to how "start date" and "end date"
+are defined, respectively.
+
+Each filter category has 4 options:
+- `Fiscal Year`
+- `Interval`
+- `Interval Type`
+
+All of the 4 `Begin` filter options affect how the "start date" is defined. All of the 4 `End`
+options affect how the "end date" is defined.
+
+One important thing to note is that `Begin` and `End` are independent of each other. That means
+that you can use different options for `Begin` and `End`
+
+For example, I want to look at data from 2021FW1 (ie first fiscal wk of 2021) until today:
+- `Begin`
+  - `Fiscal Year` = **2021**
+  - `Interval` = **1**
+  - `Interval Type` =  **Fiscal Week**
+- `End`
+  - `Interval` = **today**
+  - `Interval Type` = **Repository Variables**
+
+Another example, I want to look at data from beginning of current fiscal quarter until the end
+of the next fiscal week:
+- `Begin`
+  - `Interval` = **fiscal_day_current_fiscal_quarter**
+  - `Interval Type` = **Repository Variables**
+- `End`
+  - `Interval` = **2**
+  - `Interval Add/Sub` = **+**
+  - `Interval Type` = **+/- Fiscal Weeks**
+  
 </p>
 </details>
