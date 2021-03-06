@@ -65,9 +65,7 @@ The BigQuery UDFs can be found in the [bq_udf](bq_udf) folder in this repo and t
 created in your BigQuery project to use the LookML blck. The LookML blocks can be found in 
 [`454_tools.view`](454_tools.view).
 
-<details>
-<summary><h3>Views</h3></summary>
-<p>
+### Views
     
 There are 5 views defined in [`454_tools.view`](454_tools.view) file:
 - 454_tools_parameters
@@ -101,5 +99,4 @@ a year can start in December or January in a 454 calendar.
 
 </p>
 </details>
-</p>
-</details>
+
