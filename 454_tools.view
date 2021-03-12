@@ -19,7 +19,7 @@ view: 454_tools_parameters {
     description: "After selecting Interval parameter, use this for which number you want. Ex: If Interval = 454 Week and Begin Interval = 1, then the
     dates will be filtered to start at 454 Week 1. MAKE SURE TO SET 454 YEAR PARAMETER"
     suggestions: ["1","2",
-      "first_day_current_454_week", "first_day_current_454_month","first_day_current_454_quarter", "first_day_current_454_year",
+      "first_day_current_454_week", "first_day_current_454_quarter", "first_day_current_454_year",
       "first_day_last_454_week",
       "today", "yesterday"]
   }
@@ -231,8 +231,6 @@ view:  454_tools {
         date_sub(${current_ts_date}, interval 1 day)
       {% elsif N_start._parameter_value == 'first_day_current_454_week' %}
         ${first_day_current_wk}
-      {% elsif N_start._parameter_value == 'first_day_current_454_month' %}
-        ${454_month_first_day}
       {% elsif N_start._parameter_value == 'first_day_current_454_quarter' %}
         ${454_quarter_first_day}
       {% elsif N_start._parameter_value == 'first_day_current_454_year' %}
@@ -315,8 +313,6 @@ view:  454_tools {
         date_sub(${py_current_date}, interval 1 day)
       {% elsif N_start._parameter_value == 'first_day_current_454_week' %}
         ${py_first_day_current_wk}
-      {% elsif N_start._parameter_value == 'first_day_current_454_month' %}
-        ${py_454_month_first_day}
       {% elsif N_start._parameter_value == 'first_day_current_454_quarter' %}
         ${py_454_quarter_first_day}
       {% elsif N_start._parameter_value == 'first_day_current_454_year' %}
